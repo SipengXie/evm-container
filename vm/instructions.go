@@ -24,7 +24,8 @@ import (
 
 	"evm-container/params"
 
-	"github.com/ethereum/go-ethereum/core/types"
+	"evm-container/types"
+
 	"github.com/holiman/uint256"
 )
 

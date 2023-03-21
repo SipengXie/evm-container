@@ -23,7 +23,7 @@ import (
 
 	"evm-container/params"
 
-	"github.com/ethereum/go-ethereum/core/types"
+	"evm-container/types"
 )
 
 // StateDB is an EVM database for full state querying.

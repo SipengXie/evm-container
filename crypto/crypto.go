@@ -32,7 +32,8 @@ import (
 	"evm-container/common"
 	"evm-container/common/math"
 
-	"github.com/ethereum/go-ethereum/rlp"
+	"evm-container/rlp"
+
 	"golang.org/x/crypto/sha3"
 )
 
