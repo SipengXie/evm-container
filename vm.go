@@ -2,6 +2,7 @@ package evmcontainer
 
 import (
 	"evm-container/common"
+	"evm-container/config"
 	"evm-container/vm"
 	"math/big"
 )
@@ -18,7 +19,7 @@ func Transfer(db vm.StateDB, sender, recipient common.Address, amount *big.Int) 
 	db.AddBalance(recipient, amount)
 }
 
-func NewEnv(cfg *Config) *vm.EVM {
+func NewEnv(cfg *config.Config) *vm.EVM {
 	txContext := vm.TxContext{
 		Origin:   cfg.Origin,
 		GasPrice: cfg.GasPrice,

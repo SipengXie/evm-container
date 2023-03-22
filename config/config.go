@@ -1,14 +1,13 @@
-package evmcontainer
+package config
 
 import (
 	"evm-container/common"
 	"evm-container/crypto"
 	"evm-container/params"
+	"evm-container/state"
 	"evm-container/vm"
 	"math"
 	"math/big"
-
-	"github.com/ethereum/go-ethereum/core/state"
 )
 
 // Config is a basic type specifying certain configuration flags for running
@@ -27,11 +26,11 @@ type Config struct {
 	EVMConfig   vm.Config
 	BaseFee     *big.Int
 
-	State     *state.StateDB // TODO: use our State Interface
+	State     *state.AccountState // TODO: use our State Interface
 	GetHashFn func(n uint64) common.Hash
 }
 
-func setDefaults(cfg *Config) {
+func SetDefaults(cfg *Config) {
 	if cfg.ChainConfig == nil {
 		cfg.ChainConfig = &params.ChainConfig{
 			ChainID:             big.NewInt(1),
