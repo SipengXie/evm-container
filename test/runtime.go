@@ -13,19 +13,19 @@ import (
 //
 // Execute sets up an in-memory, temporary, environment for the execution of
 // the given code. It makes sure that it's restored to its original state afterwards.
-func Execute(code, input []byte, cfg *config.Config) ([]byte, *state.AccountState, error) {
+func Execute(code, input []byte, cfg *config.Config) ([]byte, *state.StateDB, error) {
 	if cfg == nil {
 		cfg = new(config.Config)
 	}
 	config.SetDefaults(cfg)
 
 	if cfg.State == nil {
-		cfg.State = state.NewAccountStateDb()
+		cfg.State = state.NewStateDB()
 	}
 	var (
 		address = common.BytesToAddress([]byte("contract"))
 		vmenv   = super.NewEnv(cfg)
-		sender  = vm.AccountRef(cfg.Origin)
+		sender  = vm.AccountRef(cfg.TxCtx.Origin)
 	)
 
 	cfg.State.CreateAccount(address)
@@ -36,7 +36,7 @@ func Execute(code, input []byte, cfg *config.Config) ([]byte, *state.AccountStat
 		sender,
 		common.BytesToAddress([]byte("contract")),
 		input,
-		cfg.GasLimit,
+		cfg.BlockCtx.GasLimit,
 		cfg.Value,
 	)
 	return ret, cfg.State, err
@@ -50,19 +50,19 @@ func Create(input []byte, cfg *config.Config) ([]byte, common.Address, uint64, e
 	config.SetDefaults(cfg)
 
 	if cfg.State == nil {
-		cfg.State = state.NewAccountStateDb()
+		cfg.State = state.NewStateDB()
 	}
 	var (
 		vmenv  = super.NewEnv(cfg)
-		sender = vm.AccountRef(cfg.Origin)
+		sender = vm.AccountRef(cfg.TxCtx.Origin)
 		rules  = cfg.ChainConfig.Rules(vmenv.Context.BlockNumber, vmenv.Context.Random != nil, vmenv.Context.Time)
 	)
-	cfg.State.Prepare(rules, cfg.Origin, cfg.Coinbase, nil, vm.ActivePrecompiles(rules), nil)
+	cfg.State.Prepare(rules, cfg.TxCtx.Origin, cfg.BlockCtx.Coinbase, nil, vm.ActivePrecompiles(rules), nil)
 
 	code, address, leftOverGas, err := vmenv.Create(
 		sender,
 		input,
-		cfg.GasLimit,
+		cfg.BlockCtx.GasLimit,
 		cfg.Value,
 	)
 	return code, address, leftOverGas, err
@@ -78,7 +78,7 @@ func Call(address common.Address, input []byte, cfg *config.Config) ([]byte, uin
 
 	var (
 		vmenv  = super.NewEnv(cfg)
-		caller = vm.AccountRef(cfg.Origin)
+		caller = vm.AccountRef(cfg.TxCtx.Origin)
 	)
 
 	// Call the code with the given configuration.
@@ -86,7 +86,7 @@ func Call(address common.Address, input []byte, cfg *config.Config) ([]byte, uin
 		caller,
 		address,
 		input,
-		cfg.GasLimit,
+		cfg.BlockCtx.GasLimit,
 		cfg.Value,
 	)
 	return ret, leftOverGas, err

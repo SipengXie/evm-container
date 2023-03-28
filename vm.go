@@ -3,8 +3,11 @@ package evmcontainer
 import (
 	"evm-container/common"
 	"evm-container/config"
+	"evm-container/crypto"
+	"evm-container/logger"
 	"evm-container/vm"
 	"math/big"
+	"os"
 )
 
 // CanTransfer checks whether there are enough funds in the address' account to make a transfer.
@@ -19,22 +22,33 @@ func Transfer(db vm.StateDB, sender, recipient common.Address, amount *big.Int) 
 	db.AddBalance(recipient, amount)
 }
 
+func GetHashFn(n uint64) common.Hash {
+	return common.BytesToHash(crypto.Keccak256([]byte(new(big.Int).SetUint64(n).String())))
+}
+
 func NewEnv(cfg *config.Config) *vm.EVM {
+
 	txContext := vm.TxContext{
-		Origin:   cfg.Origin,
-		GasPrice: cfg.GasPrice,
+		Origin:   cfg.TxCtx.Origin,
+		GasPrice: cfg.TxCtx.GasPrice,
 	}
+
 	blockContext := vm.BlockContext{
 		CanTransfer: CanTransfer,
 		Transfer:    Transfer,
-		GetHash:     cfg.GetHashFn,
-		Coinbase:    cfg.Coinbase,
-		BlockNumber: cfg.BlockNumber,
-		Time:        cfg.Time,
-		Difficulty:  cfg.Difficulty,
-		GasLimit:    cfg.GasLimit,
-		BaseFee:     cfg.BaseFee,
+		GetHash:     GetHashFn,
+		Coinbase:    cfg.BlockCtx.Coinbase,
+		BlockNumber: cfg.BlockCtx.BlockNumber,
+		Time:        cfg.BlockCtx.Time,
+		Difficulty:  cfg.BlockCtx.Difficulty,
+		GasLimit:    cfg.BlockCtx.GasLimit,
+		BaseFee:     cfg.BlockCtx.BaseFee,
 	}
 
+	if cfg.LogCfg != nil {
+		cfg.EVMConfig.Tracer = logger.NewJSONLogger(cfg.LogCfg, os.Stdout)
+	}
+
+	// wait for State
 	return vm.NewEVM(blockContext, txContext, cfg.State, cfg.ChainConfig, cfg.EVMConfig)
 }

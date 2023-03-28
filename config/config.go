@@ -2,7 +2,7 @@ package config
 
 import (
 	"evm-container/common"
-	"evm-container/crypto"
+	"evm-container/logger"
 	"evm-container/params"
 	"evm-container/state"
 	"evm-container/vm"
@@ -12,22 +12,32 @@ import (
 
 // Config is a basic type specifying certain configuration flags for running
 // the EVM.
-type Config struct {
-	ChainConfig *params.ChainConfig
-	Difficulty  *big.Int
-	Origin      common.Address
+
+type BlockContext struct {
 	Coinbase    common.Address
 	BlockNumber *big.Int
 	Time        uint64
+	Difficulty  *big.Int
 	GasLimit    uint64
-	GasPrice    *big.Int
-	Value       *big.Int
-	Debug       bool
-	EVMConfig   vm.Config
 	BaseFee     *big.Int
+}
 
-	State     *state.AccountState // TODO: use our State Interface
-	GetHashFn func(n uint64) common.Hash
+type TransactionContext struct {
+	Origin   common.Address
+	GasPrice *big.Int
+}
+
+type Config struct {
+	ChainConfig *params.ChainConfig
+	BlockCtx    *BlockContext
+	TxCtx       *TransactionContext
+	LogCfg      *logger.Config
+
+	Value *big.Int
+
+	EVMConfig vm.Config
+
+	State *state.StateDB // TODO: use our State Interface
 }
 
 func SetDefaults(cfg *Config) {
@@ -51,27 +61,23 @@ func SetDefaults(cfg *Config) {
 		}
 	}
 
-	if cfg.Difficulty == nil {
-		cfg.Difficulty = new(big.Int)
+	if cfg.BlockCtx == nil {
+		cfg.BlockCtx = &BlockContext{
+			Difficulty:  new(big.Int),
+			GasLimit:    math.MaxUint64,
+			BlockNumber: new(big.Int),
+			BaseFee:     big.NewInt(params.InitialBaseFee),
+		}
 	}
-	if cfg.GasLimit == 0 {
-		cfg.GasLimit = math.MaxUint64
+
+	if cfg.TxCtx == nil {
+		cfg.TxCtx = &TransactionContext{
+			GasPrice: new(big.Int),
+		}
 	}
-	if cfg.GasPrice == nil {
-		cfg.GasPrice = new(big.Int)
-	}
+
 	if cfg.Value == nil {
 		cfg.Value = new(big.Int)
 	}
-	if cfg.BlockNumber == nil {
-		cfg.BlockNumber = new(big.Int)
-	}
-	if cfg.GetHashFn == nil {
-		cfg.GetHashFn = func(n uint64) common.Hash {
-			return common.BytesToHash(crypto.Keccak256([]byte(new(big.Int).SetUint64(n).String())))
-		}
-	}
-	if cfg.BaseFee == nil {
-		cfg.BaseFee = big.NewInt(params.InitialBaseFee)
-	}
+
 }
