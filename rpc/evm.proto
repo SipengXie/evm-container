@@ -1,0 +1,137 @@
+syntax = "proto3";
+
+package rpc;
+
+option go_package = "./rpc";
+
+// NewEnv
+message NewEnvRequest{
+    bytes config = 1;
+}
+message NewEnvResponse{
+    string code = 1;
+}
+
+// SetBlockContext
+message SetBlockContextRequest{
+    bytes blockCtx = 1;
+}
+message SetBlockContextResponse{
+    string code = 1;
+}
+
+// Reset: We assume that stateDB can be touched by Client
+message ResetRequest{
+//    bytes txHash = 1;
+//    int32 index = 2;
+    bytes txCtx = 3;
+}
+message ResetResponse{
+    string code = 1;
+}
+
+// Cancel
+message CancelRequset{
+
+}
+message CancelResponse{
+    string code = 1;
+}
+
+// Cancelled
+message CancelledRequest{
+
+}
+message CancelledResponse{
+    bool result = 1;
+}
+
+// Call
+message CallRequest{
+    bytes caller = 1;
+    bytes addr = 2;
+    bytes input = 3;
+    uint64 gas = 4;
+    bytes value = 5;
+}
+message CallResponse{
+    bytes ret = 1;
+    uint64 leftOverGas = 2;
+    string error = 3;
+}
+
+// Delegate Call
+message DelegateCallRequest{
+    bytes caller = 1;
+    bytes addr = 2;
+    bytes input = 3;
+    uint64 gas = 4;
+}
+message DelegateCallResponse{
+    bytes ret = 1;
+    uint64 leftOverGas = 2;
+    string error = 3;
+}
+
+// Stataic Call
+message StataicCallRequest{
+    bytes caller = 1;
+    bytes addr = 2;
+    bytes input = 3;
+    uint64 gas = 4;
+}
+message StataicCallResponse{
+    bytes ret = 1;
+    uint64 leftOverGas = 2;
+    string error = 3;
+}
+
+// Create
+message CreateRequest{
+    bytes caller = 1;
+    bytes code = 2;
+    uint64 gas = 3;
+    bytes value =4;
+}
+message CreateResponse{
+    bytes ret = 1;
+    bytes contractAddr = 2;
+    uint64 leftOverGas = 3;
+    string error = 4;
+}
+
+// Create2
+message Create2Request{
+    bytes caller = 1;
+    bytes code = 2;
+    uint64 gas = 3;
+    bytes value =4;
+}
+message Create2Response{
+    bytes ret = 1;
+    bytes contractAddr = 2;
+    uint64 leftOverGas = 3;
+    string error = 4;
+}
+
+// ChainConfig
+message ChainConfigRequest{
+
+}
+message ChainConfigResponse{
+    bytes chainConfig = 1;
+}
+
+service Rpc {
+    rpc NewEnv(NewEnvRequest) returns(NewEnvResponse);
+    rpc SetBlockContext(SetBlockContextRequest) returns(SetBlockContextResponse);
+    rpc Reset(ResetRequest) returns(ResetResponse);
+    rpc Cancel(CancelRequset) returns(CancelResponse);
+    rpc Cancelled(CancelledRequest) returns(CancelledResponse);
+    rpc Call(CallRequest) returns(CallResponse);
+    rpc DelegateCall(DelegateCallRequest) returns(DelegateCallResponse);
+    rpc StataicCall(StataicCallRequest) returns(StataicCallResponse);
+    rpc Create(CreateRequest) returns(CreateResponse);
+    rpc Create2(Create2Request) returns(Create2Response);
+    rpc ChainConfig(ChainConfigRequest) returns(ChainConfigResponse);
+}

@@ -1,11 +1,11 @@
 package config
 
 import (
+	"encoding/json"
 	"evm-container/common"
 	"evm-container/logger"
 	"evm-container/params"
 	"evm-container/state"
-	"evm-container/vm"
 	"math"
 	"math/big"
 )
@@ -27,17 +27,31 @@ type TransactionContext struct {
 	GasPrice *big.Int
 }
 
+type VmConfig struct {
+	Debug                   bool  // Enables debugging
+	NoBaseFee               bool  // Forces the EIP-1559 baseFee to 0 (needed for 0 price calls)
+	EnablePreimageRecording bool  // Enables recording of SHA3/keccak preimages
+	ExtraEips               []int // Additional EIPS that are to be enabled
+}
+
 type Config struct {
 	ChainConfig *params.ChainConfig
 	BlockCtx    *BlockContext
 	TxCtx       *TransactionContext
 	LogCfg      *logger.Config
+	EVMConfig   VmConfig
 
 	Value *big.Int
-
-	EVMConfig vm.Config
-
 	State *state.StateDB // TODO: use our State Interface
+}
+
+func NewConfig(data []byte) (*Config, error) {
+	var cfg Config
+	err := json.Unmarshal(data, &cfg)
+	if err != nil {
+		return nil, err
+	}
+	return &cfg, nil
 }
 
 func SetDefaults(cfg *Config) {
