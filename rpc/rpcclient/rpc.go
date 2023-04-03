@@ -33,8 +33,8 @@ type (
 	ResetResponse           = rpc.ResetResponse
 	SetBlockContextRequest  = rpc.SetBlockContextRequest
 	SetBlockContextResponse = rpc.SetBlockContextResponse
-	StataicCallRequest      = rpc.StataicCallRequest
-	StataicCallResponse     = rpc.StataicCallResponse
+	StaticCallRequest       = rpc.StaticCallRequest
+	StaticCallResponse      = rpc.StaticCallResponse
 
 	Rpc interface {
 		NewEnv(ctx context.Context, in *NewEnvRequest, opts ...grpc.CallOption) (*NewEnvResponse, error)
@@ -44,7 +44,7 @@ type (
 		Cancelled(ctx context.Context, in *CancelledRequest, opts ...grpc.CallOption) (*CancelledResponse, error)
 		Call(ctx context.Context, in *CallRequest, opts ...grpc.CallOption) (*CallResponse, error)
 		DelegateCall(ctx context.Context, in *DelegateCallRequest, opts ...grpc.CallOption) (*DelegateCallResponse, error)
-		StataicCall(ctx context.Context, in *StataicCallRequest, opts ...grpc.CallOption) (*StataicCallResponse, error)
+		StaticCall(ctx context.Context, in *StaticCallRequest, opts ...grpc.CallOption) (*StaticCallResponse, error)
 		Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 		Create2(ctx context.Context, in *Create2Request, opts ...grpc.CallOption) (*Create2Response, error)
 		ChainConfig(ctx context.Context, in *ChainConfigRequest, opts ...grpc.CallOption) (*ChainConfigResponse, error)
@@ -96,9 +96,9 @@ func (m *defaultRpc) DelegateCall(ctx context.Context, in *DelegateCallRequest, 
 	return client.DelegateCall(ctx, in, opts...)
 }
 
-func (m *defaultRpc) StataicCall(ctx context.Context, in *StataicCallRequest, opts ...grpc.CallOption) (*StataicCallResponse, error) {
+func (m *defaultRpc) StaticCall(ctx context.Context, in *StaticCallRequest, opts ...grpc.CallOption) (*StaticCallResponse, error) {
 	client := rpc.NewRpcClient(m.cli.Conn())
-	return client.StataicCall(ctx, in, opts...)
+	return client.StaticCall(ctx, in, opts...)
 }
 
 func (m *defaultRpc) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {

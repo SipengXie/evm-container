@@ -2,7 +2,6 @@ package logic
 
 import (
 	"context"
-	"math/big"
 
 	"evm-container/common"
 	"evm-container/rpc/internal/svc"
@@ -12,31 +11,27 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CallLogic struct {
+type StaticCallLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewCallLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CallLogic {
-	return &CallLogic{
+func NewStaticCallLogic(ctx context.Context, svcCtx *svc.ServiceContext) *StaticCallLogic {
+	return &StaticCallLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-func (l *CallLogic) Call(in *rpc.CallRequest) (*rpc.CallResponse, error) {
-
+func (l *StaticCallLogic) StaticCall(in *rpc.StaticCallRequest) (*rpc.StaticCallResponse, error) {
 	caller := vm.AccountRef(common.BytesToAddress(in.Caller))
 	addr := common.BytesToAddress(in.Addr)
-	var value *big.Int
-	err := value.UnmarshalJSON(in.Value)
-	if err != nil {
-		return &rpc.CallResponse{}, err
-	}
-	ret, leftOverGas, err := Evm.Call(caller, addr, in.Input, in.Gas, value)
-	return &rpc.CallResponse{
+
+	ret, leftOverGas, err := Evm.StaticCall(caller, addr, in.Input, in.Gas)
+
+	return &rpc.StaticCallResponse{
 		Ret:         ret,
 		LeftOverGas: leftOverGas,
 		Error:       err.Error(),

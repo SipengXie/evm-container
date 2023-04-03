@@ -54,6 +54,33 @@ func NewConfig(data []byte) (*Config, error) {
 	return &cfg, nil
 }
 
+func NewBlockContext(data []byte) (*BlockContext, error) {
+	var ctx BlockContext
+	err := json.Unmarshal(data, &ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &ctx, nil
+}
+
+func NewTxContext(data []byte) (*TransactionContext, error) {
+	var ctx TransactionContext
+	err := json.Unmarshal(data, &ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &ctx, nil
+}
+
+func NewVmConfig(data []byte) (*VmConfig, error) {
+	var cfg VmConfig
+	err := json.Unmarshal(data, &cfg)
+	if err != nil {
+		return nil, err
+	}
+	return &cfg, nil
+}
+
 func SetDefaults(cfg *Config) {
 	if cfg.ChainConfig == nil {
 		cfg.ChainConfig = &params.ChainConfig{

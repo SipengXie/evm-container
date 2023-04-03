@@ -3,8 +3,10 @@ package logic
 import (
 	"context"
 
+	"evm-container/common"
 	"evm-container/rpc/internal/svc"
 	"evm-container/rpc/types/rpc"
+	"evm-container/vm"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,7 +26,14 @@ func NewDelegateCallLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Dele
 }
 
 func (l *DelegateCallLogic) DelegateCall(in *rpc.DelegateCallRequest) (*rpc.DelegateCallResponse, error) {
-	// todo: add your logic here and delete this line
+	caller := vm.AccountRef(common.BytesToAddress(in.Caller))
+	addr := common.BytesToAddress(in.Addr)
 
-	return &rpc.DelegateCallResponse{}, nil
+	ret, leftOverGas, err := Evm.DelegateCall(caller, addr, in.Input, in.Gas)
+
+	return &rpc.DelegateCallResponse{
+		Ret:         ret,
+		LeftOverGas: leftOverGas,
+		Error:       err.Error(),
+	}, err
 }

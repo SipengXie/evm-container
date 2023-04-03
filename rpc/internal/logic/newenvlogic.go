@@ -6,12 +6,14 @@ import (
 	"evm-container/config"
 	"evm-container/rpc/internal/svc"
 	"evm-container/rpc/types/rpc"
+	"evm-container/state"
 	"evm-container/vm"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
 var Evm *vm.EVM = nil
+var StateDB *state.StateDB = nil
 
 type NewEnvLogic struct {
 	ctx    context.Context
@@ -36,6 +38,8 @@ func (l *NewEnvLogic) NewEnv(in *rpc.NewEnvRequest) (*rpc.NewEnvResponse, error)
 		}, err
 	}
 
+	StateDB = state.NewStateDB()
+	// NewEnv(cfg, StateDB)
 	Evm = super.NewEnv(cfg)
 	return &rpc.NewEnvResponse{
 		Code: "success",

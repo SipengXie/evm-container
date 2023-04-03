@@ -22,8 +22,8 @@ message SetBlockContextResponse{
 
 // Reset: We assume that stateDB can be touched by Client
 message ResetRequest{
-//    bytes txHash = 1;
-//    int32 index = 2;
+    bytes txHash = 1;
+    int32 index = 2;
     bytes txCtx = 3;
 }
 message ResetResponse{
@@ -73,14 +73,14 @@ message DelegateCallResponse{
     string error = 3;
 }
 
-// Stataic Call
-message StataicCallRequest{
+// Static Call
+message StaticCallRequest{
     bytes caller = 1;
     bytes addr = 2;
     bytes input = 3;
     uint64 gas = 4;
 }
-message StataicCallResponse{
+message StaticCallResponse{
     bytes ret = 1;
     uint64 leftOverGas = 2;
     string error = 3;
@@ -130,7 +130,7 @@ service Rpc {
     rpc Cancelled(CancelledRequest) returns(CancelledResponse);
     rpc Call(CallRequest) returns(CallResponse);
     rpc DelegateCall(DelegateCallRequest) returns(DelegateCallResponse);
-    rpc StataicCall(StataicCallRequest) returns(StataicCallResponse);
+    rpc StaticCall(StaticCallRequest) returns(StaticCallResponse);
     rpc Create(CreateRequest) returns(CreateResponse);
     rpc Create2(Create2Request) returns(Create2Response);
     rpc ChainConfig(ChainConfigRequest) returns(ChainConfigResponse);

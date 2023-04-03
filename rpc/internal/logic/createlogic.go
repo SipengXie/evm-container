@@ -2,9 +2,12 @@ package logic
 
 import (
 	"context"
+	"math/big"
 
+	"evm-container/common"
 	"evm-container/rpc/internal/svc"
 	"evm-container/rpc/types/rpc"
+	"evm-container/vm"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,7 +27,18 @@ func NewCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateLogi
 }
 
 func (l *CreateLogic) Create(in *rpc.CreateRequest) (*rpc.CreateResponse, error) {
-	// todo: add your logic here and delete this line
+	caller := vm.AccountRef(common.BytesToAddress(in.Caller))
+	var value *big.Int
+	err := value.UnmarshalJSON(in.Value)
+	if err != nil {
+		return &rpc.CreateResponse{}, err
+	}
 
-	return &rpc.CreateResponse{}, nil
+	ret, addr, leftOverGas, err := Evm.Create(caller, in.Code, in.Gas, value)
+	return &rpc.CreateResponse{
+		Ret:          ret,
+		ContractAddr: addr.Bytes(),
+		LeftOverGas:  leftOverGas,
+		Error:        err.Error(),
+	}, err
 }

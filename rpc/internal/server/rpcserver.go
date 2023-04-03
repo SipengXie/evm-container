@@ -57,9 +57,9 @@ func (s *RpcServer) DelegateCall(ctx context.Context, in *rpc.DelegateCallReques
 	return l.DelegateCall(in)
 }
 
-func (s *RpcServer) StataicCall(ctx context.Context, in *rpc.StataicCallRequest) (*rpc.StataicCallResponse, error) {
-	l := logic.NewStataicCallLogic(ctx, s.svcCtx)
-	return l.StataicCall(in)
+func (s *RpcServer) StaticCall(ctx context.Context, in *rpc.StaticCallRequest) (*rpc.StaticCallResponse, error) {
+	l := logic.NewStaticCallLogic(ctx, s.svcCtx)
+	return l.StaticCall(in)
 }
 
 func (s *RpcServer) Create(ctx context.Context, in *rpc.CreateRequest) (*rpc.CreateResponse, error) {

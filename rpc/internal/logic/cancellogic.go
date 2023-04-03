@@ -24,7 +24,10 @@ func NewCancelLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CancelLogi
 }
 
 func (l *CancelLogic) Cancel(in *rpc.CancelRequset) (*rpc.CancelResponse, error) {
-	// todo: add your logic here and delete this line
 
-	return &rpc.CancelResponse{}, nil
+	Evm.Cancel()
+
+	return &rpc.CancelResponse{
+		Code: "success",
+	}, nil
 }

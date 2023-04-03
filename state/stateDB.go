@@ -314,3 +314,7 @@ func (accSt *StateDB) AddressInAccessList(addr common.Address) bool {
 func (accSt *StateDB) SlotInAccessList(addr common.Address, slot common.Hash) (addressPresent bool, slotPresent bool) {
 	return accSt.accessList.Contains(addr, slot)
 }
+
+func (accSt *StateDB) SetTxContext(txHash common.Hash, index int32) {
+
+}

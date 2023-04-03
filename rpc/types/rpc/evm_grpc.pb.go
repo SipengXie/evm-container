@@ -26,7 +26,7 @@ const (
 	Rpc_Cancelled_FullMethodName       = "/rpc.Rpc/Cancelled"
 	Rpc_Call_FullMethodName            = "/rpc.Rpc/Call"
 	Rpc_DelegateCall_FullMethodName    = "/rpc.Rpc/DelegateCall"
-	Rpc_StataicCall_FullMethodName     = "/rpc.Rpc/StataicCall"
+	Rpc_StaticCall_FullMethodName      = "/rpc.Rpc/StaticCall"
 	Rpc_Create_FullMethodName          = "/rpc.Rpc/Create"
 	Rpc_Create2_FullMethodName         = "/rpc.Rpc/Create2"
 	Rpc_ChainConfig_FullMethodName     = "/rpc.Rpc/ChainConfig"
@@ -43,7 +43,7 @@ type RpcClient interface {
 	Cancelled(ctx context.Context, in *CancelledRequest, opts ...grpc.CallOption) (*CancelledResponse, error)
 	Call(ctx context.Context, in *CallRequest, opts ...grpc.CallOption) (*CallResponse, error)
 	DelegateCall(ctx context.Context, in *DelegateCallRequest, opts ...grpc.CallOption) (*DelegateCallResponse, error)
-	StataicCall(ctx context.Context, in *StataicCallRequest, opts ...grpc.CallOption) (*StataicCallResponse, error)
+	StaticCall(ctx context.Context, in *StaticCallRequest, opts ...grpc.CallOption) (*StaticCallResponse, error)
 	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 	Create2(ctx context.Context, in *Create2Request, opts ...grpc.CallOption) (*Create2Response, error)
 	ChainConfig(ctx context.Context, in *ChainConfigRequest, opts ...grpc.CallOption) (*ChainConfigResponse, error)
@@ -120,9 +120,9 @@ func (c *rpcClient) DelegateCall(ctx context.Context, in *DelegateCallRequest, o
 	return out, nil
 }
 
-func (c *rpcClient) StataicCall(ctx context.Context, in *StataicCallRequest, opts ...grpc.CallOption) (*StataicCallResponse, error) {
-	out := new(StataicCallResponse)
-	err := c.cc.Invoke(ctx, Rpc_StataicCall_FullMethodName, in, out, opts...)
+func (c *rpcClient) StaticCall(ctx context.Context, in *StaticCallRequest, opts ...grpc.CallOption) (*StaticCallResponse, error) {
+	out := new(StaticCallResponse)
+	err := c.cc.Invoke(ctx, Rpc_StaticCall_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -167,7 +167,7 @@ type RpcServer interface {
 	Cancelled(context.Context, *CancelledRequest) (*CancelledResponse, error)
 	Call(context.Context, *CallRequest) (*CallResponse, error)
 	DelegateCall(context.Context, *DelegateCallRequest) (*DelegateCallResponse, error)
-	StataicCall(context.Context, *StataicCallRequest) (*StataicCallResponse, error)
+	StaticCall(context.Context, *StaticCallRequest) (*StaticCallResponse, error)
 	Create(context.Context, *CreateRequest) (*CreateResponse, error)
 	Create2(context.Context, *Create2Request) (*Create2Response, error)
 	ChainConfig(context.Context, *ChainConfigRequest) (*ChainConfigResponse, error)
@@ -199,8 +199,8 @@ func (UnimplementedRpcServer) Call(context.Context, *CallRequest) (*CallResponse
 func (UnimplementedRpcServer) DelegateCall(context.Context, *DelegateCallRequest) (*DelegateCallResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DelegateCall not implemented")
 }
-func (UnimplementedRpcServer) StataicCall(context.Context, *StataicCallRequest) (*StataicCallResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method StataicCall not implemented")
+func (UnimplementedRpcServer) StaticCall(context.Context, *StaticCallRequest) (*StaticCallResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StaticCall not implemented")
 }
 func (UnimplementedRpcServer) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
@@ -350,20 +350,20 @@ func _Rpc_DelegateCall_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Rpc_StataicCall_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StataicCallRequest)
+func _Rpc_StaticCall_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StaticCallRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RpcServer).StataicCall(ctx, in)
+		return srv.(RpcServer).StaticCall(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Rpc_StataicCall_FullMethodName,
+		FullMethod: Rpc_StaticCall_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RpcServer).StataicCall(ctx, req.(*StataicCallRequest))
+		return srv.(RpcServer).StaticCall(ctx, req.(*StaticCallRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -458,8 +458,8 @@ var Rpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Rpc_DelegateCall_Handler,
 		},
 		{
-			MethodName: "StataicCall",
-			Handler:    _Rpc_StataicCall_Handler,
+			MethodName: "StaticCall",
+			Handler:    _Rpc_StaticCall_Handler,
 		},
 		{
 			MethodName: "Create",

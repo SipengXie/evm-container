@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"encoding/json"
 
 	"evm-container/rpc/internal/svc"
 	"evm-container/rpc/types/rpc"
@@ -24,7 +25,14 @@ func NewChainConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Chain
 }
 
 func (l *ChainConfigLogic) ChainConfig(in *rpc.ChainConfigRequest) (*rpc.ChainConfigResponse, error) {
-	// todo: add your logic here and delete this line
 
-	return &rpc.ChainConfigResponse{}, nil
+	chainCfg := Evm.ChainConfig()
+	data, err := json.Marshal(chainCfg)
+	if err != nil {
+		return &rpc.ChainConfigResponse{}, err
+	}
+
+	return &rpc.ChainConfigResponse{
+		ChainConfig: data,
+	}, nil
 }
