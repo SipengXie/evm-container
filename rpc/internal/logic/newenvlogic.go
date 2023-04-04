@@ -40,6 +40,7 @@ func (l *NewEnvLogic) NewEnv(in *rpc.NewEnvRequest) (*rpc.NewEnvResponse, error)
 
 	StateDB = state.NewStateDB()
 	// NewEnv(cfg, StateDB)
+	cfg.State = StateDB
 	Evm = super.NewEnv(cfg)
 	return &rpc.NewEnvResponse{
 		Code: "success",

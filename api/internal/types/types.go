@@ -2,7 +2,7 @@
 package types
 
 type NewEnvRequest struct {
-	Config []byte `json:"config"`
+	Config string `json:"config"`
 }
 
 type NewEnvResponse struct {
@@ -10,10 +10,10 @@ type NewEnvResponse struct {
 }
 
 type CreateRequest struct {
-	Caller []byte `json:"caller"`
-	Code   []byte `json:"code"`
-	Gas    uint64 `json:"gas"`
-	Value  []byte `json:"value"`
+	Caller string `json:"caller"`
+	Code   string `json:"code"`
+	Gas    string `json:"gas"`
+	Value  string `json:"value"`
 }
 
 type CreateResponse struct {
@@ -24,11 +24,11 @@ type CreateResponse struct {
 }
 
 type CallRequest struct {
-	Caller []byte `json:"caller"`
-	Addr   []byte `json:"addr"`
-	Input  []byte `json:"input"`
-	Gas    uint64 `json:"gas"`
-	Value  []byte `json:"value"`
+	Caller string `json:"caller"`
+	Addr   string `json:"addr"`
+	Input  string `json:"input"`
+	Gas    string `json:"gas"`
+	Value  string `json:"value"`
 }
 
 type CallResponse struct {

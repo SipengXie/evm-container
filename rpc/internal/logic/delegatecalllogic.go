@@ -26,6 +26,12 @@ func NewDelegateCallLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Dele
 }
 
 func (l *DelegateCallLogic) DelegateCall(in *rpc.DelegateCallRequest) (*rpc.DelegateCallResponse, error) {
+	if Evm == nil {
+		return nil, ErrMissingEvmInstance
+	}
+	if StateDB == nil {
+		return nil, ErrMissingStateDBInstance
+	}
 	caller := vm.AccountRef(common.BytesToAddress(in.Caller))
 	addr := common.BytesToAddress(in.Addr)
 
@@ -34,6 +40,5 @@ func (l *DelegateCallLogic) DelegateCall(in *rpc.DelegateCallRequest) (*rpc.Dele
 	return &rpc.DelegateCallResponse{
 		Ret:         ret,
 		LeftOverGas: leftOverGas,
-		Error:       err.Error(),
 	}, err
 }

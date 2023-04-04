@@ -27,6 +27,12 @@ func NewSetBlockContextLogic(ctx context.Context, svcCtx *svc.ServiceContext) *S
 }
 
 func (l *SetBlockContextLogic) SetBlockContext(in *rpc.SetBlockContextRequest) (*rpc.SetBlockContextResponse, error) {
+	if Evm == nil {
+		return nil, ErrMissingEvmInstance
+	}
+	if StateDB == nil {
+		return nil, ErrMissingStateDBInstance
+	}
 
 	blockCtx, err := config.NewBlockContext(in.BlockCtx)
 	if err != nil {

@@ -1,35 +1,35 @@
 type (
 	NewEnvRequest {
-		Config []byte `json:"config"`
+		Config string `json:"config"`
 	}
 	NewEnvResponse {
 		Code string `json:"string"`
 	}
 
 	CreateRequest {
-		Caller []byte `json:"caller"`
-		Code   []byte `json:"code"`
-		Gas    uint64 `json:"gas"`
-		Value  []byte `json:"value"`
+		Caller string `json:"caller"`
+		Code   string `json:"code"`
+		Gas    string `json:"gas"`
+		Value  string `json:"value"`
 	}
 	CreateResponse {
 		Ret          []byte `json:"ret"`
 		ContractAddr []byte `json:"contractAddr"`
 		LeftOverGas  uint64 `json:"leftOverGas"`
-		Error        string `json:"error"`
+
 	}
 
 	CallRequest {
-		Caller []byte `json:"caller"`
-		Addr   []byte `json:"addr"`
-		Input  []byte `json:"input"`
-		Gas    uint64 `json:"gas"`
-		Value  []byte `json:"value"`
+		Caller string `json:"caller"`
+		Addr   string `json:"addr"`
+		Input  string `json:"input"`
+		Gas    string `json:"gas"`
+		Value  string `json:"value"`
 	}
 	CallResponse {
 		Ret         []byte `json:"ret"`
 		LeftOverGas uint64 `json:"leftOverGas"`
-		Error       string `json:"error"`
+
 	}
 )
 

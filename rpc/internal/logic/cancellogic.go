@@ -24,7 +24,12 @@ func NewCancelLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CancelLogi
 }
 
 func (l *CancelLogic) Cancel(in *rpc.CancelRequset) (*rpc.CancelResponse, error) {
-
+	if Evm == nil {
+		return nil, ErrMissingEvmInstance
+	}
+	if StateDB == nil {
+		return nil, ErrMissingStateDBInstance
+	}
 	Evm.Cancel()
 
 	return &rpc.CancelResponse{

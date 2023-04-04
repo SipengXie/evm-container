@@ -27,6 +27,12 @@ func NewResetLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ResetLogic 
 }
 
 func (l *ResetLogic) Reset(in *rpc.ResetRequest) (*rpc.ResetResponse, error) {
+	if Evm == nil {
+		return nil, ErrMissingEvmInstance
+	}
+	if StateDB == nil {
+		return nil, ErrMissingStateDBInstance
+	}
 
 	txHash := common.BytesToHash(in.TxHash)
 	index := in.Index

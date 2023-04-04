@@ -52,12 +52,11 @@ message CallRequest{
     bytes addr = 2;
     bytes input = 3;
     uint64 gas = 4;
-    bytes value = 5;
+    string value = 5;
 }
 message CallResponse{
     bytes ret = 1;
     uint64 leftOverGas = 2;
-    string error = 3;
 }
 
 // Delegate Call
@@ -70,7 +69,6 @@ message DelegateCallRequest{
 message DelegateCallResponse{
     bytes ret = 1;
     uint64 leftOverGas = 2;
-    string error = 3;
 }
 
 // Static Call
@@ -83,7 +81,6 @@ message StaticCallRequest{
 message StaticCallResponse{
     bytes ret = 1;
     uint64 leftOverGas = 2;
-    string error = 3;
 }
 
 // Create
@@ -91,13 +88,12 @@ message CreateRequest{
     bytes caller = 1;
     bytes code = 2;
     uint64 gas = 3;
-    bytes value =4;
+    string value =4;
 }
 message CreateResponse{
     bytes ret = 1;
     bytes contractAddr = 2;
     uint64 leftOverGas = 3;
-    string error = 4;
 }
 
 // Create2
@@ -105,13 +101,12 @@ message Create2Request{
     bytes caller = 1;
     bytes code = 2;
     uint64 gas = 3;
-    bytes value =4;
+    string value =4;
 }
 message Create2Response{
     bytes ret = 1;
     bytes contractAddr = 2;
     uint64 leftOverGas = 3;
-    string error = 4;
 }
 
 // ChainConfig

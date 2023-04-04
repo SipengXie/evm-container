@@ -26,6 +26,12 @@ func NewStaticCallLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Static
 }
 
 func (l *StaticCallLogic) StaticCall(in *rpc.StaticCallRequest) (*rpc.StaticCallResponse, error) {
+	if Evm == nil {
+		return nil, ErrMissingEvmInstance
+	}
+	if StateDB == nil {
+		return nil, ErrMissingStateDBInstance
+	}
 	caller := vm.AccountRef(common.BytesToAddress(in.Caller))
 	addr := common.BytesToAddress(in.Addr)
 
@@ -34,7 +40,6 @@ func (l *StaticCallLogic) StaticCall(in *rpc.StaticCallRequest) (*rpc.StaticCall
 	return &rpc.StaticCallResponse{
 		Ret:         ret,
 		LeftOverGas: leftOverGas,
-		Error:       err.Error(),
 	}, err
 
 }

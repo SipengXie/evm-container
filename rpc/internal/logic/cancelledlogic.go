@@ -24,7 +24,12 @@ func NewCancelledLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cancell
 }
 
 func (l *CancelledLogic) Cancelled(in *rpc.CancelledRequest) (*rpc.CancelledResponse, error) {
-
+	if Evm == nil {
+		return nil, ErrMissingEvmInstance
+	}
+	if StateDB == nil {
+		return nil, ErrMissingStateDBInstance
+	}
 	res := Evm.Cancelled()
 
 	return &rpc.CancelledResponse{

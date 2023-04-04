@@ -25,6 +25,9 @@ func NewChainConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Chain
 }
 
 func (l *ChainConfigLogic) ChainConfig(in *rpc.ChainConfigRequest) (*rpc.ChainConfigResponse, error) {
+	if Evm == nil {
+		return nil, ErrMissingEvmInstance
+	}
 
 	chainCfg := Evm.ChainConfig()
 	data, err := json.Marshal(chainCfg)

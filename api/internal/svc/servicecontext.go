@@ -15,7 +15,7 @@ type ServiceContext struct {
 func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
 		Config: c,
-		EvmRpc: rpcclient.NewRpc(zrpc.MustNewClient(c.EvmRpcConf)),
+		EvmRpc: rpcclient.NewRpc(zrpc.MustNewClient(c.EvmRpc)),
 	}
 
 }

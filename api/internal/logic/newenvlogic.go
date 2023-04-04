@@ -26,7 +26,7 @@ func NewNewEnvLogic(ctx context.Context, svcCtx *svc.ServiceContext) *NewEnvLogi
 
 func (l *NewEnvLogic) NewEnv(req *types.NewEnvRequest) (resp *types.NewEnvResponse, err error) {
 	res, err := l.svcCtx.EvmRpc.NewEnv(l.ctx, &rpc.NewEnvRequest{
-		Config: req.Config,
+		Config: []byte(req.Config),
 	})
 
 	if err != nil {

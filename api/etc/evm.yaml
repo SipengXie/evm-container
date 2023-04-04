@@ -5,5 +5,5 @@ Port: 8888
 EvmRpc:
   Etcd:
     Hosts:
-    - etcd:2379
+      - 127.0.0.1:2379
     Key: evm.rpc
