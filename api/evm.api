@@ -3,7 +3,41 @@ type (
 		Config string `json:"config"`
 	}
 	NewEnvResponse {
-		Code string `json:"string"`
+		Code string `json:"code"`
+	}
+
+	SetBlockContextRequest {
+		BlockCtx string `json:"blockCtx"`
+	}
+	SetBlockContextResponse {
+		Code string `json:"code"`
+	}
+
+	ResetRequest {
+		TxHash string `json:"txHash"`
+		Index  string `json:"index"`
+		TxCtx  string `json:"txCtx"`
+	}
+	ResetResponse {
+		Code string `json:"code"`
+	}
+
+	CancelRequest {
+	}
+	CancelResponse {
+		Code string `json:"code"`
+	}
+
+	CancelledRequest {
+	}
+	CancelledResponse {
+		Result bool `json:"result"`
+	}
+
+	ChainConfigRequest {
+	}
+	ChainConfigResponse {
+		ChainConfig []byte `json:"chainConfig"`
 	}
 
 	CreateRequest {
@@ -16,7 +50,18 @@ type (
 		Ret          []byte `json:"ret"`
 		ContractAddr []byte `json:"contractAddr"`
 		LeftOverGas  uint64 `json:"leftOverGas"`
+	}
 
+	Create2Request {
+		Caller string `json:"caller"`
+		Code   string `json:"code"`
+		Gas    string `json:"gas"`
+		Value  string `json:"value"`
+	}
+	Create2Response {
+		Ret          []byte `json:"ret"`
+		ContractAddr []byte `json:"contractAddr"`
+		LeftOverGas  uint64 `json:"leftOverGas"`
 	}
 
 	CallRequest {
@@ -29,7 +74,28 @@ type (
 	CallResponse {
 		Ret         []byte `json:"ret"`
 		LeftOverGas uint64 `json:"leftOverGas"`
+	}
 
+	DelegateCallRequest {
+		Caller string `json:"caller"`
+		Addr   string `json:"addr"`
+		Input  string `json:"input"`
+		Gas    string `json:"gas"`
+	}
+	DelegateCallResponse {
+		Ret         []byte `json:"ret"`
+		LeftOverGas uint64 `json:"leftOverGas"`
+	}
+
+	StaticCallRequest {
+		Caller string `json:"caller"`
+		Addr   string `json:"addr"`
+		Input  string `json:"input"`
+		Gas    string `json:"gas"`
+	}
+	StaticCallResponse {
+		Ret         []byte `json:"ret"`
+		LeftOverGas uint64 `json:"leftOverGas"`
 	}
 )
 
@@ -37,9 +103,34 @@ service Evm {
 	@handler NewEnv
 	post /api/evm/newEnv(NewEnvRequest) returns (NewEnvResponse)
 	
+	@handler SetBlockContext
+	post /api/evm/setBlockContext(SetBlockContextRequest) returns (SetBlockContextResponse)
+	
+	@handler Reset
+	post /api/evm/reset(ResetRequest) returns (ResetResponse)
+	
+	@handler Cancel
+	post /api/evm/Cancel(CancelRequest) returns (CancelResponse)
+	
+	@handler Cancelled
+	post /api/evm/Cancelled(CancelledRequest) returns (CancelledResponse)
+	
+	@handler ChainConfig
+	post /api/evm/ChainConfig(ChainConfigRequest) returns (ChainConfigResponse)
+	
 	@handler Create
 	post /api/evm/create(CreateRequest) returns (CreateResponse)
 	
+	@handler Create2
+	post /api/evm/Create2(Create2Request) returns (Create2Response)
+	
 	@handler Call
 	post /api/evm/call(CallRequest) returns (CallResponse)
+	
+	@handler DelegateCall
+	post /api/evm/delegateCall(DelegateCallRequest) returns (DelegateCallResponse)
+	
+	@handler StaticCall
+	post /api/evm/staticCall(StaticCallRequest) returns (StaticCallResponse)
+	
 }

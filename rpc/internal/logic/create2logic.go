@@ -34,10 +34,16 @@ func (l *Create2Logic) Create2(in *rpc.Create2Request) (*rpc.Create2Response, er
 		return nil, ErrMissingStateDBInstance
 	}
 	caller := vm.AccountRef(common.BytesToAddress(in.Caller))
-	var value *big.Int
+	var value *big.Int = new(big.Int)
 	value, _ = value.SetString(string(in.Value), 10)
 
+	rules := Evm.ChainConfig().Rules(Evm.Context.BlockNumber, Evm.Context.Random != nil, Evm.Context.Time)
+	StateDB.Prepare(rules, Evm.TxContext.Origin, Evm.Context.Coinbase, nil, vm.ActivePrecompiles(rules), nil)
+
 	ret, addr, leftOverGas, err := Evm.Create(caller, in.Code, in.Gas, value)
+
+	StateDB.SetCode(addr, ret)
+
 	return &rpc.Create2Response{
 		Ret:          ret,
 		ContractAddr: addr.Bytes(),

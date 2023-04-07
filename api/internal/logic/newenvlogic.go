@@ -29,11 +29,7 @@ func (l *NewEnvLogic) NewEnv(req *types.NewEnvRequest) (resp *types.NewEnvRespon
 		Config: []byte(req.Config),
 	})
 
-	if err != nil {
-		return nil, err
-	}
-
 	return &types.NewEnvResponse{
 		Code: res.Code,
-	}, nil
+	}, err
 }

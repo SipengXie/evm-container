@@ -12,32 +12,30 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CallLogic struct {
+type DelegateCallLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewCallLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CallLogic {
-	return &CallLogic{
+func NewDelegateCallLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DelegateCallLogic {
+	return &DelegateCallLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *CallLogic) Call(req *types.CallRequest) (resp *types.CallResponse, err error) {
-	//	logx.Info("Address is:", common.HexToAddress(req.Addr))
+func (l *DelegateCallLogic) DelegateCall(req *types.DelegateCallRequest) (resp *types.DelegateCallResponse, err error) {
 	gas, _ := strconv.ParseUint(req.Gas, 10, 64)
-	res, err := l.svcCtx.EvmRpc.Call(l.ctx, &rpc.CallRequest{
+	res, err := l.svcCtx.EvmRpc.DelegateCall(l.ctx, &rpc.DelegateCallRequest{
 		Caller: common.Hex2Bytes(req.Caller),
 		Addr:   common.Hex2Bytes(req.Addr),
 		Input:  common.Hex2Bytes(req.Input),
 		Gas:    gas,
-		Value:  req.Value,
 	})
 
-	return &types.CallResponse{
+	return &types.DelegateCallResponse{
 		Ret:         res.Ret,
 		LeftOverGas: res.LeftOverGas,
 	}, err

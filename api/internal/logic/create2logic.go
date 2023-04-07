@@ -12,30 +12,30 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CreateLogic struct {
+type Create2Logic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateLogic {
-	return &CreateLogic{
+func NewCreate2Logic(ctx context.Context, svcCtx *svc.ServiceContext) *Create2Logic {
+	return &Create2Logic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *CreateLogic) Create(req *types.CreateRequest) (resp *types.CreateResponse, err error) {
+func (l *Create2Logic) Create2(req *types.Create2Request) (resp *types.Create2Response, err error) {
 	gas, _ := strconv.ParseUint(req.Gas, 10, 64)
-	res, err := l.svcCtx.EvmRpc.Create(l.ctx, &rpc.CreateRequest{
+	res, err := l.svcCtx.EvmRpc.Create2(l.ctx, &rpc.Create2Request{
 		Caller: common.Hex2Bytes(req.Caller),
 		Code:   common.Hex2Bytes(req.Code),
 		Gas:    gas,
 		Value:  req.Value,
 	})
 
-	return &types.CreateResponse{
+	return &types.Create2Response{
 		Ret:          res.Ret,
 		ContractAddr: res.ContractAddr,
 		LeftOverGas:  res.LeftOverGas,

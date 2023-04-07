@@ -31,11 +31,8 @@ func (l *ChainConfigLogic) ChainConfig(in *rpc.ChainConfigRequest) (*rpc.ChainCo
 
 	chainCfg := Evm.ChainConfig()
 	data, err := json.Marshal(chainCfg)
-	if err != nil {
-		return &rpc.ChainConfigResponse{}, err
-	}
 
 	return &rpc.ChainConfigResponse{
 		ChainConfig: data,
-	}, nil
+	}, err
 }

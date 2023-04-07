@@ -36,7 +36,7 @@ func (l *CallLogic) Call(in *rpc.CallRequest) (*rpc.CallResponse, error) {
 	}
 	caller := vm.AccountRef(common.BytesToAddress(in.Caller))
 	addr := common.BytesToAddress(in.Addr)
-	var value *big.Int
+	var value *big.Int = new(big.Int)
 	value, _ = value.SetString(string(in.Value), 10)
 
 	ret, leftOverGas, err := Evm.Call(caller, addr, in.Input, in.Gas, value)

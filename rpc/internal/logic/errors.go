@@ -3,6 +3,6 @@ package logic
 import "errors"
 
 var (
-	ErrMissingEvmInstance     = errors.New("Missing Evm Instance")
-	ErrMissingStateDBInstance = errors.New("Missing StateDB Instance")
+	ErrMissingEvmInstance     = errors.New("missing Evm Instance")
+	ErrMissingStateDBInstance = errors.New("missing StateDB Instance")
 )

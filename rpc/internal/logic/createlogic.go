@@ -43,7 +43,7 @@ func (l *CreateLogic) Create(in *rpc.CreateRequest) (*rpc.CreateResponse, error)
 	ret, addr, leftOverGas, err := Evm.Create(caller, in.Code, in.Gas, value)
 
 	StateDB.SetCode(addr, ret)
-	logx.Debug("Error:", err)
+
 	return &rpc.CreateResponse{
 		Ret:          ret,
 		ContractAddr: addr.Bytes(),

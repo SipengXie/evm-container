@@ -19,13 +19,53 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
+				Path:    "/api/evm/setBlockContext",
+				Handler: SetBlockContextHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/api/evm/reset",
+				Handler: ResetHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/api/evm/Cancel",
+				Handler: CancelHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/api/evm/Cancelled",
+				Handler: CancelledHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/api/evm/ChainConfig",
+				Handler: ChainConfigHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
 				Path:    "/api/evm/create",
 				Handler: CreateHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
+				Path:    "/api/evm/Create2",
+				Handler: Create2Handler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
 				Path:    "/api/evm/call",
 				Handler: CallHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/api/evm/delegateCall",
+				Handler: DelegateCallHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/api/evm/staticCall",
+				Handler: StaticCallHandler(serverCtx),
 			},
 		},
 	)

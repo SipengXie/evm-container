@@ -12,32 +12,30 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CallLogic struct {
+type StaticCallLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewCallLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CallLogic {
-	return &CallLogic{
+func NewStaticCallLogic(ctx context.Context, svcCtx *svc.ServiceContext) *StaticCallLogic {
+	return &StaticCallLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *CallLogic) Call(req *types.CallRequest) (resp *types.CallResponse, err error) {
-	//	logx.Info("Address is:", common.HexToAddress(req.Addr))
+func (l *StaticCallLogic) StaticCall(req *types.StaticCallRequest) (resp *types.StaticCallResponse, err error) {
 	gas, _ := strconv.ParseUint(req.Gas, 10, 64)
-	res, err := l.svcCtx.EvmRpc.Call(l.ctx, &rpc.CallRequest{
+	res, err := l.svcCtx.EvmRpc.StaticCall(l.ctx, &rpc.StaticCallRequest{
 		Caller: common.Hex2Bytes(req.Caller),
 		Addr:   common.Hex2Bytes(req.Addr),
 		Input:  common.Hex2Bytes(req.Input),
 		Gas:    gas,
-		Value:  req.Value,
 	})
 
-	return &types.CallResponse{
+	return &types.StaticCallResponse{
 		Ret:         res.Ret,
 		LeftOverGas: res.LeftOverGas,
 	}, err
