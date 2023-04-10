@@ -110,19 +110,19 @@ service Evm {
 	post /api/evm/reset(ResetRequest) returns (ResetResponse)
 	
 	@handler Cancel
-	post /api/evm/Cancel(CancelRequest) returns (CancelResponse)
+	post /api/evm/cancel(CancelRequest) returns (CancelResponse)
 	
 	@handler Cancelled
-	post /api/evm/Cancelled(CancelledRequest) returns (CancelledResponse)
+	post /api/evm/cancelled(CancelledRequest) returns (CancelledResponse)
 	
 	@handler ChainConfig
-	post /api/evm/ChainConfig(ChainConfigRequest) returns (ChainConfigResponse)
+	post /api/evm/chainConfig(ChainConfigRequest) returns (ChainConfigResponse)
 	
 	@handler Create
 	post /api/evm/create(CreateRequest) returns (CreateResponse)
 	
 	@handler Create2
-	post /api/evm/Create2(Create2Request) returns (Create2Response)
+	post /api/evm/create2(Create2Request) returns (Create2Response)
 	
 	@handler Call
 	post /api/evm/call(CallRequest) returns (CallResponse)

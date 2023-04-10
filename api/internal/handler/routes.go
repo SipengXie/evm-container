@@ -29,17 +29,17 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/api/evm/Cancel",
+				Path:    "/api/evm/cancel",
 				Handler: CancelHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/api/evm/Cancelled",
+				Path:    "/api/evm/cancelled",
 				Handler: CancelledHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/api/evm/ChainConfig",
+				Path:    "/api/evm/chainConfig",
 				Handler: ChainConfigHandler(serverCtx),
 			},
 			{
@@ -49,7 +49,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/api/evm/Create2",
+				Path:    "/api/evm/create2",
 				Handler: Create2Handler(serverCtx),
 			},
 			{
