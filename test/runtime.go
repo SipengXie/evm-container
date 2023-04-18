@@ -23,7 +23,7 @@ func Execute(code, input []byte, cfg *config.Config) ([]byte, *state.StateDB, er
 	config.SetDefaults(cfg)
 
 	if cfg.State == nil {
-		cfg.State = state.NewStateDB()
+		cfg.State = state.NewStateDB(nil, nil)
 	}
 	var (
 		address = common.BytesToAddress([]byte("contract"))
@@ -52,7 +52,7 @@ func Create(input []byte, cfg *config.Config) ([]byte, common.Address, uint64, e
 	config.SetDefaults(cfg)
 
 	if cfg.State == nil {
-		cfg.State = state.NewStateDB()
+		cfg.State = state.NewStateDB(nil, nil)
 	}
 
 	// content above is for testing
@@ -80,7 +80,7 @@ func Create2(input []byte, salt *uint256.Int, cfg *config.Config) ([]byte, commo
 	config.SetDefaults(cfg)
 
 	if cfg.State == nil {
-		cfg.State = state.NewStateDB()
+		cfg.State = state.NewStateDB(nil, nil)
 	}
 
 	// content above is for testing

@@ -1,6 +1,15 @@
 Name: evm.rpc
-ListenOn: 0.0.0.0:9000
+ListenOn: 0.0.0.0:8001
+
 Etcd:
   Hosts:
-    - 127.0.0.1:2379
+    # - 127.0.0.1:2379
+    - etcd:2379
   Key: evm.rpc
+
+SdbRpc:
+  Etcd:
+    Hosts:
+      #- 127.0.0.1:2379
+    - etcd:2379
+    Key: sdb.rpc

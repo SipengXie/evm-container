@@ -35,7 +35,7 @@ func (l *CreateLogic) Create(in *rpc.CreateRequest) (*rpc.CreateResponse, error)
 	}
 	caller := vm.AccountRef(common.BytesToAddress(in.Caller))
 	var value *big.Int = new(big.Int)
-	value, _ = value.SetString(string(in.Value), 10)
+	value, _ = value.SetString(in.Value, 10)
 
 	rules := Evm.ChainConfig().Rules(Evm.Context.BlockNumber, Evm.Context.Random != nil, Evm.Context.Time)
 	StateDB.Prepare(rules, Evm.TxContext.Origin, Evm.Context.Coinbase, nil, vm.ActivePrecompiles(rules), nil)

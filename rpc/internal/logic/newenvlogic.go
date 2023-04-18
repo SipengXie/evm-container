@@ -38,10 +38,12 @@ func (l *NewEnvLogic) NewEnv(in *rpc.NewEnvRequest) (*rpc.NewEnvResponse, error)
 		}, err
 	}
 
-	StateDB = state.NewStateDB()
-	// NewEnv(cfg, StateDB)
+	StateDB = state.NewStateDB(l.svcCtx.SdbRpc, l.ctx)
 	cfg.State = StateDB
 	Evm = super.NewEnv(cfg)
+	if Evm == nil {
+		return nil, ErrMissingEvmInstance
+	}
 	return &rpc.NewEnvResponse{
 		Code: "success",
 	}, nil

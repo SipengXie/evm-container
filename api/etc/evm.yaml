@@ -1,9 +1,10 @@
 Name: Evm
 Host: 0.0.0.0
-Port: 8888
+Port: 8000
 
 EvmRpc:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
+      #- etcd:2379
     Key: evm.rpc

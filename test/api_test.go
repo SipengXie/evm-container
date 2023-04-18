@@ -14,9 +14,9 @@ import (
 	"testing"
 )
 
-var urlNewEnv string = "http://127.0.0.1:8888/api/evm/newEnv"
-var urlCreate string = "http://127.0.0.1:8888/api/evm/create"
-var urlCall string = "http://127.0.0.1:8888/api/evm/call"
+var urlNewEnv string = "http://127.0.0.1:8000/api/evm/newEnv"
+var urlCreate string = "http://127.0.0.1:8000/api/evm/create"
+var urlCall string = "http://127.0.0.1:8000/api/evm/call"
 
 func TestApiNewEnv(t *testing.T) {
 
