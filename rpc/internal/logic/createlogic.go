@@ -41,8 +41,9 @@ func (l *CreateLogic) Create(in *rpc.CreateRequest) (*rpc.CreateResponse, error)
 	StateDB.Prepare(rules, Evm.TxContext.Origin, Evm.Context.Coinbase, nil, vm.ActivePrecompiles(rules), nil)
 
 	ret, addr, leftOverGas, err := Evm.Create(caller, in.Code, in.Gas, value)
-
-	StateDB.SetCode(addr, ret)
+	if err == nil {
+		StateDB.SetCode(addr, ret)
+	}
 
 	return &rpc.CreateResponse{
 		Ret:          ret,
